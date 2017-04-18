@@ -1,0 +1,22 @@
+{
+  "name": "MatrixOperator",
+  "version": "0.0.0",
+  "main": "Gruntfile.js",
+  "license": "MIT",
+  "description": "A Matrix Operator in JS",
+  "dependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jade": "^1.0.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-zip": "^0.17.1",
+    "uglify-js": "^2.8.20"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "grunt build",
+    "start": "grunt"
+  }
+}

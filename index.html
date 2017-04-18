@@ -1,0 +1,47 @@
+<!DOCTYPE html><link hreflang="es-MX" href="//Consalv0.github.io/MatrixOperator"><html><head><title>Matrix Operator</title><meta charset="UTF-8"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!-- script(language='javascript' type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.2/svg.min.js')--><style>@import url(//fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Playfair+Display);@import url(//fonts.googleapis.com/css?family=Open+Sans);html,body{height:100%;font-family:'Open Sans',sans-serif;font-size:16px;background-color:#000}</style></head><body><div class="container"><div class="row"><div id="mTableA" class="container col-5"></div><div id="mTableB" class="container col-5"></div></div></div><script src="//code.jquery.com/jquery-3.2.1.min.js"></script><script src="//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script><script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script><script>/* eslint space-infix-ops: 0, space-before-function-paren: 0, indent: 0, no-trailing-spaces: 0, no-irregular-whitespace: 0 */
+/* global $ */
+
+/* BUTTONS */
+function addPlus(path) {
+  let button = '<button class="btn btn-success">⏎'
+  $(path).append(button)
+}
+
+function addSub() {
+  let button = '<button class="btn btn-danger">-'
+  $('body #matrix').append(button)
+}
+
+function addTable(type) {
+  let row = '<div class="row">'
+  let path = 'body .container#matrixTable' + type
+  $(path).append(row)
+  addCell(path + ' .row')
+  addCell(path + ' .row')
+}
+
+function addCell(path, n, m, value) {
+  let text = '<input type="text" class="form-control" id="' + n + '-' + m + '" placeholder="' + value + '" style="text-align:right;">'
+  $(path).append(text)
+}
+/* ******* */
+
+/* MAKE */
+// addTable('A')
+// addTable('B')
+let dataA = [[[0, 0], 1], [[0, 1], 2], [[1, 0], 3], [[1, 1], 4]]
+let dataB = [[[0, 0], 1], [[0, 1], 2], [[1, 0], 3], [[1, 1], 4]]
+
+function table(data, id) {
+  data.forEach(function(element) {
+    let n = element[0][0]
+    let m = element[0][1]
+    let value = element[1]
+    addCell('body .container#mTable' + id, n, m, value)
+  })
+  addPlus('body .container#mTable' + id)
+}
+table(dataA, 'A')
+table(dataB, 'B')
+/* ******* */
+</script></body></html>
