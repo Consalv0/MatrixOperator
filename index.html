@@ -1,47 +1,81 @@
-<!DOCTYPE html><link hreflang="es-MX" href="//Consalv0.github.io/MatrixOperator"><html><head><title>Matrix Operator</title><meta charset="UTF-8"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!-- script(language='javascript' type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.2/svg.min.js')--><style>@import url(//fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Playfair+Display);@import url(//fonts.googleapis.com/css?family=Open+Sans);html,body{height:100%;font-family:'Open Sans',sans-serif;font-size:16px;background-color:#000}</style></head><body><div class="container"><div class="row"><div id="mTableA" class="container col-5"></div><div id="mTableB" class="container col-5"></div></div></div><script src="//code.jquery.com/jquery-3.2.1.min.js"></script><script src="//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script><script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script><script>/* eslint space-infix-ops: 0, space-before-function-paren: 0, indent: 0, no-trailing-spaces: 0, no-irregular-whitespace: 0 */
+<!DOCTYPE html><link hreflang="es-MX" href="//Consalv0.github.io/MatrixOperator"><html><head><title>Matrix Operator</title><meta charset="UTF-8"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"><!-- script(language='javascript' type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.2/svg.min.js')--><style>@import url(//fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Playfair+Display);@import url(//fonts.googleapis.com/css?family=Open+Sans);html,body{font-family:'Lato',sans-serif;background-color:#000}h2.card-block{text-align:center;font-weight:bold}.card,.side{margin-top:8%}#tables{margin-top:4%;margin-bottom:8%}.div{margin-left:10%;margin-right:10%;margin-top:0;margin-bottom:0}</style></head><body class="container"><div id="tables" class="row justify-content-around"><div class="col-10 col-lg-5"><div id="mTableA" class="card"><div class="card-block"><h2 class="card-title font-weight-bold text-center">Matrix A</h2></div><div id="table" class="card-block"></div><div class="div"><div style="width: 100%; height: 1px; background-color: #ccc;" class="progress-bar"></div></div><div id="sizeController" class="card-block btn-toolbar justify-content-between"><h3 class="card-text">Columns</h3><div id="columns" class="btn-group"><button id="sum" class="btn btn-success">+</button><button id="sub" class="btn btn-danger">-</button></div><h3 class="card-text">Rows</h3><div id="rows" class="btn-group"><button id="sum" class="btn btn-success">+</button><button id="sub" class="btn btn-danger">-</button></div></div></div></div><div class="col-10 col-lg-5"><div id="mTableB" class="card"><div class="card-block"><h2 class="card-title font-weight-bold text-center">Matrix B</h2></div><div id="table" class="card-block"></div><div class="div"><div style="width: 100%; height: 1px; background-color: #ccc;" class="progress-bar"></div></div><div id="sizeController" class="card-block btn-toolbar justify-content-between"><h3 class="card-text">Columns</h3><div id="columns" class="btn-group"><button id="sum" class="btn btn-success">+</button><button id="sub" class="btn btn-danger">-</button></div><h3 class="card-text">Rows</h3><div id="rows" class="btn-group"><button id="sum" class="btn btn-success">+</button><button id="sub" class="btn btn-danger">-</button></div></div></div></div></div><script src="//code.jquery.com/jquery-3.2.1.min.js"></script><script src="//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script><script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"></script><script>/* eslint space-infix-ops: 0, space-before-function-paren: 0, indent: 0, no-trailing-spaces: 0, no-irregular-whitespace: 0 */
 /* global $ */
 
-/* BUTTONS */
-function addPlus(path) {
-  let button = '<button class="btn btn-success">⏎'
-  $(path).append(button)
-}
-
-function addSub() {
-  let button = '<button class="btn btn-danger">-'
-  $('body #matrix').append(button)
-}
-
-function addTable(type) {
-  let row = '<div class="row">'
-  let path = 'body .container#matrixTable' + type
+/* TABLE */
+function addRow(path, num) {
+  let row = '<div class="d-flex flex-nowrap" id="' + num + '">'
   $(path).append(row)
-  addCell(path + ' .row')
-  addCell(path + ' .row')
 }
 
-function addCell(path, n, m, value) {
-  let text = '<input type="text" class="form-control" id="' + n + '-' + m + '" placeholder="' + value + '" style="text-align:right;">'
+function addCell(path, value) {
+  let text = '<input type="text" class="form-control" placeholder="' + value + '" style="text-align:right;">'
   $(path).append(text)
 }
 /* ******* */
 
 /* MAKE */
-// addTable('A')
-// addTable('B')
-let dataA = [[[0, 0], 1], [[0, 1], 2], [[1, 0], 3], [[1, 1], 4]]
-let dataB = [[[0, 0], 1], [[0, 1], 2], [[1, 0], 3], [[1, 1], 4]]
-
-function table(data, id) {
-  data.forEach(function(element) {
-    let n = element[0][0]
-    let m = element[0][1]
-    let value = element[1]
-    addCell('body .container#mTable' + id, n, m, value)
-  })
-  addPlus('body .container#mTable' + id)
+function doMatrix(matrix, rows, columns) {
+  let newRow = []
+  for (let j = 0; j < columns; j++) {
+    newRow.push(0)
+  }
+  for (let i = 0; i < rows; i++) {
+    matrix.push(newRow)
+  }
 }
-table(dataA, 'A')
-table(dataB, 'B')
+
+function makeTable(matrix, name) {
+  matrix.forEach(function (matrix, i) {
+    addRow('#mTable' + name + ' #table', i)
+    matrix.forEach(function (matrix) {
+      addCell('#mTable' + name + ' #table' + ' #' + i, matrix)
+    })
+  })
+}
+
+var matrixA = []
+var matrixB = []
+doMatrix(matrixA, 5, 3)
+doMatrix(matrixB, 2, 3)
+makeTable(matrixA, 'A')
+makeTable(matrixB, 'B')
 /* ******* */
+
+function getMatrixWithID(parentID) {
+  parentID = parentID.toString()
+  parentID = parentID.replace(/mTable/g, '')
+  if (parentID === 'A') return matrixA
+  if (parentID === 'B') return matrixB
+}
+
+$('#columns #sum').click(function(matrix) {
+  let parentID = $(this).parent().parent().parent().attr('id')
+  matrix = getMatrixWithID(parentID)
+  addRow('#' + parentID + ' #table', matrix.length)
+  let newRow = []
+  matrix[0].forEach(function () {
+    addCell('#' + parentID + ' #table #' + matrix.length, 0)
+    newRow.push(0)
+  })
+  matrix.push(newRow)
+})
+
+$('#columns #sub').click(function(matrix) {
+  let parentID = $(this).parent().parent().parent().attr('id')
+  matrix = getMatrixWithID(parentID)
+  if (matrix.length === 1) return
+  $('#' + parentID + ' #table #' + (matrix.length-1)).remove()
+  matrix.pop()
+})
+
+$('#rows #sum').click(function(matrix) {
+  let parentID = $(this).parent().parent().parent().attr('id')
+  matrix = getMatrixWithID(parentID)
+  $('#' + parentID + ' #table div').each(function(idx) {
+    addCell('#' + parentID + ' #table #' + idx, 0)
+  })
+  matrix.forEach(function (mtx, idx) {
+    mtx.push(0)
+  })
+})
 </script></body></html>
