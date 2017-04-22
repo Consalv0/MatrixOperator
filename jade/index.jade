@@ -4,20 +4,21 @@ html
   head
     title Matrix Operator
     meta(charset='UTF-8')
+    meta(name='viewport' content='user-scalable=no')
     link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
     link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
     // script(language='javascript' type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.2/svg.min.js')
     style
       include ../css/main.css
-  body
-    .modal.fade#noSameSize(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
+  body.container
+    .modal.fade#noSameSize(tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true')
       .modal-dialog
         .alert.alert-warning
           strong WARNING!
           p The matrices must have an&nbsp
             strong equal number of rows and columns
             &nbspto be operated.
-    .modal.fade#noEqualIntersections(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
+    .modal.fade#noEqualIntersections(tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true')
       .modal-dialog
         .alert.alert-warning
           strong WARNING!
@@ -29,7 +30,7 @@ html
         .card#mTableA
           .card-block
             h2.card-title.font-weight-bold.text-center Matrix A
-            h6.card-subtitle.text-center.text-muted 2 x 3
+            h6.card-subtitle.text-center.text-muted 0 × 0
           .card-block.btn-toolbar.justify-content-between#sizeController
             .d-flex.flex-column.flex-lg-row
               h3.text-center.mr-lg-2 Rows
@@ -42,13 +43,13 @@ html
                 button.btn.btn-primary#sum +
                 button.btn.btn-secondary#sub -
           .div
-            .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+            .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block#table
       .col-xs-12-12.col-lg-5
         .card#mTableB
           .card-block
             h2.card-title.font-weight-bold.text-center Matrix B
-            h6.card-subtitle.text-center.text-muted 2 x 3
+            h6.card-subtitle.text-center.text-muted 0 × 0
           .card-block.btn-toolbar.justify-content-between#sizeController
             .d-flex.flex-column.flex-lg-row
               h3.text-center.mr-lg-2 Rows
@@ -61,39 +62,39 @@ html
                 button.btn.btn-primary#sum +
                 button.btn.btn-secondary#sub -
           .div
-            .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+            .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block#table
     .d-flex.flex-row.justify-content-around
       .card.card-text-center
         .card-header
-          .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+          .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
         .card-block#matrixOperator
           .d-flex.flex-column.flex-lg-row.btn-toolbar.justify-content-center#twoMatrix
             select.custom-select.mr-3.mb-2.mb-lg-0#matrixFirst
               option(selected) Matrix A
               option Matrix B
-            .btn-group.justify-content-center.mr-lg-3#operation(data-toggle="buttons")
+            .btn-group.justify-content-center.mr-lg-3#operation(data-toggle='buttons')
               label#sum.btn.btn-primary.active +
-                input(type="radio" name="options")
+                input(type='radio' name='options')
               label#sub.btn.btn-primary -
-                input(type="radio" name="options")
+                input(type='radio' name='options')
               label#mult.btn.btn-primary •
-                input(type="radio" name="options")
+                input(type='radio' name='options')
             select.custom-select.mr-3#matrixSecond
-              option Matrix A
-              option(selected) Matrix B
+              option(selected) Matrix A
+              option Matrix B
           .div.mb-2.mt-3
-            .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+            .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .d-flex.flex-column#mTableC
             h2.card-title.font-weight-bold.text-center Matrix C
-            h6.card-subtitle.text-center.text-muted 2 x 3
+            h6.card-subtitle.text-center.text-muted 0 × 0
             .card-block#table
         .card-header
-          .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+          .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
     
     script(src='//code.jquery.com/jquery-3.2.1.min.js')
     script(src='//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js')
     script(src='//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
     script(src='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
     script
-      include ../js/main.js
+      include ../js/main.min.js

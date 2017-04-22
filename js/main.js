@@ -2,13 +2,16 @@
 /* global $ */
 
 /* TABLE */
-function addRow(path, id) {
-  let row = '<div class="d-flex flex-nowrap" id="' + id + '">'
+function addRow(path, id, row) {
+  row = '<div class="d-flex flex-nowrap" id="' + id + '">'
   $(path).append(row)
 }
 
-function addColumn(path, id, value = '') {
-  let column = '<input type="number" class="form-control matrixListener" id="' + id + '" value="' + value + '" placeholder="0" style="text-align:center;">'
+function addColumn(path, id, value, column) {
+  column = '<input type="number" class="form-control matrixListener" id="' + id + '" value="' + value + '" placeholder="0" style="text-align:center;">'
+  if (path.includes('mTableC')) {
+    column = column.replace(/"([^"]*)$/, '" readonly$1')
+  }
   $(path).append(column)
 }
 /* ******* */
@@ -24,6 +27,7 @@ function doMatrix(matrix, rows, columns) {
 }
 
 function makeTable(matrix, name) {
+  $('#mTable' + name + ' #table').empty()
   matrix.forEach(function (matrix, i) {
     addRow('#mTable' + name + ' #table', i)
     matrix.forEach(function (matrix, j) {
@@ -31,10 +35,6 @@ function makeTable(matrix, name) {
     })
   })
   sizeText(matrix, '#mTable' + name)
-}
-
-function emptyTable(name) {
-  $('#mTable' + name + ' #table').empty()
 }
 
 var matrixA = []
@@ -85,7 +85,6 @@ function doSum(mFirst, mSecond, sign = true) {
       }
     }
   }
-  emptyTable('C')
   makeTable(mSolved, 'C')
 }
 
@@ -108,15 +107,18 @@ function doMult(mFirst, mSecond, mSolved = []) {
       }
     }
   })
-
-  emptyTable('C')
   makeTable(mSolved, 'C')
 }
 
-$(document).on('click', '#twoMatrix label', doOperation)
-$(document).on('select, change', '#twoMatrix select', doOperation)
+$(document).on('click', '#twoMatrix label', function (element) {
+  unCheck()
+  $(this).addClass('active')
+  doOperation()
+})
 
-$(document).on('keyup', '.matrixListener', function() {
+$(document).on('select change', '#twoMatrix select', doOperation)
+
+$(document).on('change keyup', '.matrixListener', function() {
   let parentID = $(this).parents('.card').attr('id')
   let matrix = getMatrixWithID(parentID)
   let column = $(this).parent().attr('id')
