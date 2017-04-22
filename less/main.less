@@ -1,14 +1,23 @@
 // Breakpoints
-@range-sm: 544px;
-@range-md: 767px;
-@range-lg: 992px;
-@range-xl: 1200px;
+@size-sm: 544px;
+@size-md: 767px;
+@size-lg: 992px;
+@size-xl: 1200px;
 
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Playfair+Display);
 
 html, body {
   font-family: 'Lato', sans-serif;
   background-color: #000;
+  @media (max-width: @size-lg) {
+    .modal, select {
+      font-size: 1rem;
+    }
+    h3 {
+      font-size: 1.5rem;
+    }
+    font-size: 3em;
+  }
 }
 
 h2.card-block {
@@ -22,7 +31,11 @@ h2.card-block {
 
 #tables {
   margin-top: 8%;
-  margin-bottom: 8%
+  margin-bottom: 8%;
+  @media (max-width: @size-lg) {
+    margin-top: 0%;
+    margin-bottom: 4%;
+  }
 }
 
 .div {
@@ -30,4 +43,8 @@ h2.card-block {
   margin-right: 5%;
   margin-top: 0;
   margin-bottom: 0;
+}
+
+#sizeController {
+  padding-top: 0;
 }

@@ -10,83 +10,86 @@ html
     style
       include ../css/main.css
   body
-    .modal.fade#missinMatrix(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
-      .modal-dialog.modal-sm
-        .alert.alert-danger
-          strong ERROR!
-          p Required matrix is missing in operation.
     .modal.fade#noSameSize(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
-      .modal-dialog.modal-sm
+      .modal-dialog
         .alert.alert-warning
           strong WARNING!
-          p The matrices must have an equal number of rows and columns to be operated.
+          p The matrices must have an&nbsp
+            strong equal number of rows and columns
+            &nbspto be operated.
     .modal.fade#noEqualIntersections(tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
-      .modal-dialog.modal-sm
+      .modal-dialog
         .alert.alert-warning
           strong WARNING!
-          p The columns in A must be equal to the number of rows in B to be operated.
-    .row.justify-content-around#tables
-      .col-10.col-xs-12.col-lg-5
+          p The &nbsp
+            strong number of columns in A must be equal to the number of rows in B
+            &nbspto be operated.
+    .d-flex.flex-column.flex-lg-row.justify-content-around#tables
+      .col-xs-12.col-lg-5
         .card#mTableA
           .card-block
             h2.card-title.font-weight-bold.text-center Matrix A
+            h6.card-subtitle.text-center.text-muted 2 x 3
           .card-block.btn-toolbar.justify-content-between#sizeController
-            h3.card-text Rows
-            .btn-group#rows
-              button.btn.btn-primary#sum +
-              button.btn.btn-secondary#sub -
-            h3.card-text Columns
-            .btn-group#columns
-              button.btn.btn-primary#sum +
-              button.btn.btn-secondary#sub -
+            .d-flex.flex-column.flex-lg-row
+              h3.text-center.mr-lg-2 Rows
+              .btn-group#rows
+                button.btn.btn-primary#sum +
+                button.btn.btn-secondary#sub -
+            .d-flex.flex-column.flex-lg-row
+              h3.text-center.mr-lg-2 Columns
+              .btn-group#columns
+                button.btn.btn-primary#sum +
+                button.btn.btn-secondary#sub -
           .div
             .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
           .card-block#table
-      .col-10.col-xs-12.col-lg-5
+      .col-xs-12-12.col-lg-5
         .card#mTableB
           .card-block
             h2.card-title.font-weight-bold.text-center Matrix B
+            h6.card-subtitle.text-center.text-muted 2 x 3
           .card-block.btn-toolbar.justify-content-between#sizeController
-            h3.card-text Rows
-            .btn-group#rows
-              button.btn.btn-primary#sum +
-              button.btn.btn-secondary#sub -
-            h3.card-text Columns
-            .btn-group#columns
-              button.btn.btn-primary#sum +
-              button.btn.btn-secondary#sub -
+            .d-flex.flex-column.flex-lg-row
+              h3.text-center.mr-lg-2 Rows
+              .btn-group#rows
+                button.btn.btn-primary#sum +
+                button.btn.btn-secondary#sub -
+            .d-flex.flex-column.flex-lg-row
+              h3.text-center.mr-lg-2 Columns
+              .btn-group#columns
+                button.btn.btn-primary#sum +
+                button.btn.btn-secondary#sub -
           .div
             .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
           .card-block#table
-    .card.card-text-center
-      .card-header
-        .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
-      .card-block#matrixOperator
-        .row.btn-toolbar.justify-content-center.form-inline#twoMatrix
-          select.custom-select.mr-3#matrixFirst
-            option(selected) Select Matrix
-            option Matrix A
-            option Matrix B
-          .btn-group.mr-3#operation(data-toggle="buttons")
-            label.btn.btn-primary.active +
-              input#sum(type="radio" name="options" checked)
-            label.btn.btn-primary -
-              input#sub(type="radio" name="options")
-            label.btn.btn-primary •
-              input#mult(type="radio" name="options")
-          select.custom-select.mr-3#matrixSecond
-            option(selected) Select Matrix
-            option Matrix A
-            option Matrix B
-        .row.justify-content-center
-          .card.col-10.col-lg-6#mTableC
-            .card-block
-              h2.card-title.font-weight-bold.text-center Matrix C
-            .div
-              .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+    .d-flex.flex-row.justify-content-around
+      .card.card-text-center
+        .card-header
+          .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+        .card-block#matrixOperator
+          .d-flex.flex-column.flex-lg-row.btn-toolbar.justify-content-center#twoMatrix
+            select.custom-select.mr-3.mb-2.mb-lg-0#matrixFirst
+              option(selected) Matrix A
+              option Matrix B
+            .btn-group.justify-content-center.mr-lg-3#operation(data-toggle="buttons")
+              label#sum.btn.btn-primary.active +
+                input(type="radio" name="options")
+              label#sub.btn.btn-primary -
+                input(type="radio" name="options")
+              label#mult.btn.btn-primary •
+                input(type="radio" name="options")
+            select.custom-select.mr-3#matrixSecond
+              option Matrix A
+              option(selected) Matrix B
+          .div.mb-2.mt-3
+            .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+          .d-flex.flex-column#mTableC
+            h2.card-title.font-weight-bold.text-center Matrix C
+            h6.card-subtitle.text-center.text-muted 2 x 3
             .card-block#table
-      .card-header
-        .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
+        .card-header
+          .progress-bar(style="width: 100%; height: 1px; background-color: #ccc;")
     
     script(src='//code.jquery.com/jquery-3.2.1.min.js')
     script(src='//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js')
