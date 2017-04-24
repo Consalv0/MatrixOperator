@@ -148,7 +148,7 @@ function doTranspose(id) {
   makeTable(matrix, id)
 }
 
-$(document).on('click', '#transpose', function () {
+$(document).on('click', '#tras', function () {
   let parentID = $(this).parents('.card').attr('id')
   let id = getMatrixWithID(parentID, 'onlyID')
   doTranspose(id)

@@ -8,7 +8,7 @@
 
 html, body {
   font-family: 'Lato', sans-serif;
-  background-color: #000;
+  background-color: #ececec;
   font-size: 30px;
   @media (max-width: @size-md) {
     font-size: 12px;
@@ -20,7 +20,7 @@ html, body {
 
 .card-header {
   @media (max-width: @size-lg) {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 }
 
@@ -30,7 +30,22 @@ h2.card-block {
 }
 
 .card, .side {
-  margin-top: 4%
+  margin-top: 4%;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+  -webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.19),
+                      0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19),
+              0 6px 6px rgba(0,0,0,0.23);
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  @media (max-width: @size-lg) {
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+  }
 }
 
 #tables {
@@ -62,4 +77,13 @@ h2.card-block {
 
 .input-sm {
   width: 4em !important;
+  @media (max-width: @size-lg) {
+    width: 3em !important;
+  }
+}
+
+@element [data-ratio] {
+  $this {
+    height: eval('clientWidth * parseInt(getAttribute("data-ratio").split(":")[1]) / parseInt(getAttribute("data-ratio").split(":")[0])')px;
+  }
 }

@@ -12,14 +12,14 @@ html
       include ../css/main.css
   body.container
     .modal.fade#noSameSize(tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true')
-      .modal-dialog
+      .modal-dialog.modal-lg
         .alert.alert-warning
           strong WARNING!
           p The matrices must have an&nbsp
             strong equal number of rows and columns
             &nbspto be operated.
     .modal.fade#noEqualIntersections(tabindex='-1' role='dialog' aria-labelledby='mySmallModalLabel' aria-hidden='true')
-      .modal-dialog
+      .modal-dialog.modal-lg
         .alert.alert-warning
           strong WARNING!
           p The &nbsp
@@ -31,16 +31,21 @@ html
           .card-header
             .btn-toolbar.d-flex
               .btn-group.mx-auto
-                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown') Paste
+                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+                  i.fa.fa-clone(aria-hidden='true')
                 .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
                   .dropdown-item.disabled#copyA(role='button') Matrix A
                   .dropdown-item#copyB(role='button') Matrix B
                   .dropdown-item#copyC(role='button') Matrix C
               .input-group.mx-auto
-                button.input-group-addon.btn.btn-primary#multBy ×
-                input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='1')
-              button.btn.btn-secondary.mx-auto#transpose(type='button') A
-               sup Tr
+                span.input-group-btn
+                  button.btn.btn-outline-primary(type='button')#multBy ×
+                input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='-')
+              button.btn.btn-outline-primary.mx-auto#tras(type='button') A
+                sup Tr
+              button.btn.btn-outline-secondary.mx-auto.disabled#det(type='button') |A|
+              button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') A
+                sup -1
           .card-block.d-flex.flex-column.flex-lg-row
             .card-block
               h2.card-title.font-weight-bold.text-center Matrix A
@@ -49,13 +54,17 @@ html
               .d-flex.flex-column.mr-5
                 h6.text-center Rows
                 .btn-group#rows
-                  button.btn.btn-primary#sum +
-                  button.btn.btn-secondary#sub -
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-down
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-up
               .d-flex.flex-column
                 h6.text-center Columns
                 .btn-group#columns
-                  button.btn.btn-primary#sum +
-                  button.btn.btn-secondary#sub -
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-right
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-left
           .div
             .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block#table
@@ -64,16 +73,21 @@ html
           .card-header
             .btn-toolbar.d-flex
               .btn-group.mx-auto
-                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown') Paste
+                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+                  i.fa.fa-clone(aria-hidden='true')
                 .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
                   .dropdown-item#copyA(role='button') Matrix A
                   .dropdown-item.disabled#copyB(role='button') Matrix B
                   .dropdown-item#copyC(role='button') Matrix C
               .input-group.mx-auto
-                button.input-group-addon.btn.btn-primary#multBy ×
-                input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='1')
-              button.btn.btn-secondary.mx-auto#transpose(type='button') B
-                 sup Tr
+                span.input-group-btn
+                  button.btn.btn-outline-primary(type='button')#multBy ×
+                input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='-')
+              button.btn.btn-outline-primary.mx-auto#tras(type='button') B
+                sup Tr
+              button.btn.btn-outline-secondary.mx-auto.disabled#det(type='button') |B|
+              button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') B
+                sup -1
           .card-block.d-flex.flex-column.flex-lg-row
             .card-block
               h2.card-title.font-weight-bold.text-center Matrix B
@@ -82,13 +96,17 @@ html
               .d-flex.flex-column.mr-5
                 h6.text-center Rows
                 .btn-group#rows
-                  button.btn.btn-primary#sum +
-                  button.btn.btn-secondary#sub -
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-down
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-up
               .d-flex.flex-column
                 h6.text-center Columns
                 .btn-group#columns
-                  button.btn.btn-primary#sum +
-                  button.btn.btn-secondary#sub -
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-right
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-left
           .div
             .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block#table
@@ -97,28 +115,36 @@ html
         .card-header
           .btn-toolbar.d-flex
             .btn-group.mx-auto
-              button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown') Paste
+              button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+                i.fa.fa-clone(aria-hidden='true')
               .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
                 .dropdown-item#copyA(role='button') Matrix A
                 .dropdown-item#copyB(role='button') Matrix B
                 .dropdown-item.disabled#copyC(role='button') Matrix C
             .input-group.mx-auto
-              button.input-group-addon.btn.btn-primary#multBy ×
-              input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='1')
-            button.btn.btn-secondary.mx-auto#transpose(type='button') C
-               sup Tr
-        .card-block.btn-toolbar.d-flex.flex-column.flex-sm-row#matrixOperator
-          select.custom-select.mb-2.mx-auto.mb-lg-0#matrixFirst
+              span.input-group-btn
+                button.btn.btn-outline-primary(type='button')#multBy ×
+              input.form-control.input-sm(type='number' aria-describedby='multBy' placeholder='-')
+            button.btn.btn-outline-primary.mx-auto#tras(type='button') C
+              sup Tr
+            button.btn.btn-outline-secondary.mx-auto.disabled#det(type='button') |C|
+            button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') C
+              sup -1
+        .card-block.btn-toolbar.d-flex.flex-row#matrixOperator
+          select.custom-select.mx-auto#matrixFirst
             option(selected) Matrix A
             option Matrix B
           .btn-group.mx-auto#operation(data-toggle='buttons')
-            label#sum.btn.btn-primary.active +
+            label#sum.btn.btn-primary.active
+              i.fa.fa-plus
               input(type='radio' name='options')
-            label#sub.btn.btn-primary -
+            label#sub.btn.btn-primary
+              i.fa.fa-minus
               input(type='radio' name='options')
-            label#mult.btn.btn-primary •
+            label#mult.btn.btn-primary
+              i.fa.fa-asterisk
               input(type='radio' name='options')
-          select.custom-select.mb-2.mx-auto.mb-lg-0#matrixSecond
+          select.custom-select.mx-auto#matrixSecond
             option(selected) Matrix A
             option Matrix B
         .div.mb-3
