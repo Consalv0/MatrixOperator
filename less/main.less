@@ -81,9 +81,3 @@ h2.card-block {
     width: 3em !important;
   }
 }
-
-@element [data-ratio] {
-  $this {
-    height: eval('clientWidth * parseInt(getAttribute("data-ratio").split(":")[1]) / parseInt(getAttribute("data-ratio").split(":")[0])')px;
-  }
-}

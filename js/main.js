@@ -8,7 +8,7 @@ function addRow(path, id, row) {
 }
 
 function addColumn(path, id, value, column) {
-  if (value === undefined) value = ''
+  if (value === undefined || value === 0) value = ''
   column = '<input type="number" class="form-control matrixListener" id="' + id + '" value="' + value + '" placeholder="0" style="text-align:center;">'
   if (path.includes('mTableC')) {
     column = column.replace(/"([^"]*)$/, '" readonly$1')
@@ -117,6 +117,7 @@ function doMult(mFirst, mSecond, mSolved = []) {
 }
 
 function doMultBy(id, num) {
+  console.log(id, num)
   let matrix = getMatrixWithID(id)
   let mSolved = []
   for (let i = 0; i < matrix.length; i++) {
@@ -159,7 +160,8 @@ $(document).on('click', '#tras', function () {
 $(document).on('click', '#multBy', function () {
   let parentID = $(this).parents('.card').attr('id')
   let id = getMatrixWithID(parentID, 'onlyID')
-  let num = $(this).parent().find('input').val() ? $(this).parent().find('input').val() : 1
+  let num = $(this).parents('.input-group').find('input').val()
+          ? $(this).parents('.input-group').find('input').val() : 1
   doMultBy(id, num)
   if (id === 'C') { unCheck('#matrixOperator'); return }
   doOperation()
