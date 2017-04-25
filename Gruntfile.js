@@ -87,6 +87,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-watch')
 
-  grunt.registerTask('default', ['uglify', 'less', 'jade', 'copy', 'watch'])
-  grunt.registerTask('build', ['uglify', 'less', 'jade', 'copy'])
+  grunt.registerTask('default', ['uglify', 'less', 'jade', 'watch'])
+  grunt.registerTask('build', ['uglify', 'less', 'jade'])
 }

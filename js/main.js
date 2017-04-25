@@ -121,8 +121,13 @@ function doMult(mFirst, mSecond) {
   makeTable(matrixC, 'C')
 }
 
-function doMultBy(id, num) {
-  let matrix = getMatrixWithID(id)
+function doMultBy(id, num, doTable = true) {
+  let matrix
+  if (Array.isArray(id)) {
+    matrix = id
+  } else {
+    matrix = getMatrixWithID(id)
+  }
   let mSolved = []
   for (let i = 0; i < matrix.length; i++) {
     mSolved.push([])
@@ -134,7 +139,11 @@ function doMultBy(id, num) {
   mSolved.forEach(function (element) {
     matrix.push(element)
   })
-  makeTable(matrix, id)
+  if (doTable) {
+    makeTable(matrix, id)
+  } else {
+    return matrix
+  }
 }
 
 function doTranspose(id) {
@@ -155,18 +164,40 @@ function doTranspose(id) {
 
 function doDeterminant(matrix, mSolved = []) {
   if (matrix.length > 2) {
-    for (let i = 0; i < matrix.length; i++) {
+    for (let k = 0; k < matrix.length; k++) {
       mSolved.push([])
-      for (let j = 0; j < matrix.length; j++) {
-        mSolved[i].push([])
-        for (let k = 0; k < matrix.length; k++) {
-          mSolved[0][j].push(matrix[i][k])
+      for (let i = 0; i < matrix.length; i++) {
+        mSolved[k].push([])
+        for (let j = 0; j < matrix.length; j++) {
+          mSolved[k][i].push(matrix[i][j])
         }
       }
     }
-    // for (let i = 0; i < matrix.length; i++) {
-    //   mSolved[i].pop(0)
-    // }
+    let mTemporal = []
+    for (let i = 0; i < mSolved.length; i++) {
+      mTemporal.push([])
+      for (let j = 1; j < mSolved.length; j++) {
+        mTemporal[i].push(mSolved[i][j])
+      }
+    }
+    for (let i = 0; i < mTemporal.length; i++) {
+      for (let j = 0; j < mTemporal.length-1; j++) {
+        mTemporal[i][j].splice(i, 1)
+      }
+    }
+    let mSum = 0
+    let sign = -1
+    for (let i = 0; i < matrix.length; i++) {
+      for (let j = 0; j < matrix.length; j++) {
+        if (j % 2 == 0) {
+          if (mTemporal[i][j]) {
+            sign *= -1
+            mSum += sign*doDeterminant(mTemporal[i])
+          }
+        }
+      }
+    }
+    mSolved = mSum
   } else {
     mSolved = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
   }
