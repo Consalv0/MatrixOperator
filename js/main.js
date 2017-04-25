@@ -1,4 +1,4 @@
-/* eslint space-infix-ops: 0, space-before-function-paren: 0, indent: 0, no-trailing-spaces: 0, no-irregular-whitespace: 0 */
+/* eslint space-infix-ops: 0, space-before-function-paren: 0, indent: 0, no-trailing-spaces: 0, no-irregular-whitespace: 0, no-eval: 0 */
 /* global $ */
 
 /* TABLE */
@@ -8,7 +8,11 @@ function addRow(path, id, row) {
 }
 
 function addColumn(path, id, value, column) {
-  if (value === undefined || value === 0) value = ''
+  if (!$.isNumeric(value) || value === 0) {
+    value = ''
+  } else {
+    value = Number(Math.round(value+'e2')+'e-2')
+  }
   column = '<input type="number" class="form-control matrixListener" id="' + id + '" value="' + value + '" placeholder="0" style="text-align:center;">'
   if (path.includes('mTableC')) {
     column = column.replace(/"([^"]*)$/, '" readonly$1')
@@ -22,17 +26,17 @@ function doMatrix(matrix, rows, columns) {
   for (let i = 0; i < rows; i++) {
     matrix.push([])
     for (let j = 0; j < columns; j++) {
-      matrix[i].push('')
+      matrix[i].push(Math.random()*3)
     }
   }
 }
 
 function makeTable(matrix, name) {
-  $('#mTable' + name + ' #table').empty()
+  $('#mTable' + name + ' table').empty()
   matrix.forEach(function (matrix, i) {
-    addRow('#mTable' + name + ' #table', i)
+    addRow('#mTable' + name + ' table', i)
     matrix.forEach(function (matrix, j) {
-      addColumn('#mTable' + name + ' #table' + ' div#' + i, j, matrix)
+      addColumn('#mTable' + name + ' table' + ' div#' + i, j, matrix)
     })
   })
   sizeText(matrix, '#mTable' + name)
@@ -93,11 +97,12 @@ function doSum(mFirst, mSecond, sign = true) {
   makeTable(matrixC, 'C')
 }
 
-function doMult(mFirst, mSecond, mSolved = []) {
+function doMult(mFirst, mSecond) {
   if (mFirst[0].length !== mSecond.length) {
     unCheck('#matrixOperator')
     toggleModal('#noEqualIntersections'); return
   }
+  let mSolved = []
   let sum = 0
   mFirst.forEach(function (element, m) {
     mSolved.push([])
@@ -117,7 +122,6 @@ function doMult(mFirst, mSecond, mSolved = []) {
 }
 
 function doMultBy(id, num) {
-  console.log(id, num)
   let matrix = getMatrixWithID(id)
   let mSolved = []
   for (let i = 0; i < matrix.length; i++) {
@@ -149,6 +153,28 @@ function doTranspose(id) {
   makeTable(matrix, id)
 }
 
+function doDeterminant(matrix, mSolved = []) {
+  if (matrix.length > 2) {
+    for (let i = 0; i < matrix.length; i++) {
+      mSolved.push([])
+      for (let j = 0; j < matrix.length; j++) {
+        mSolved[i].push([])
+        for (let k = 0; k < matrix.length; k++) {
+          mSolved[0][j].push(matrix[i][k])
+        }
+      }
+    }
+    // for (let i = 0; i < matrix.length; i++) {
+    //   mSolved[i].pop(0)
+    // }
+  } else {
+    mSolved = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
+  }
+  console.log(mSolved)
+  mSolved = Number(Math.round(mSolved+'e3')+'e-3')
+  return mSolved
+}
+
 $(document).on('click', '#tras', function () {
   let parentID = $(this).parents('.card').attr('id')
   let id = getMatrixWithID(parentID, 'onlyID')
@@ -162,9 +188,32 @@ $(document).on('click', '#multBy', function () {
   let id = getMatrixWithID(parentID, 'onlyID')
   let num = $(this).parents('.input-group').find('input').val()
           ? $(this).parents('.input-group').find('input').val() : 1
+  num = eval(num)
   doMultBy(id, num)
   if (id === 'C') { unCheck('#matrixOperator'); return }
   doOperation()
+})
+
+$('.card-header').on({
+  'mouseenter': function() {
+    $(this).find('#det').tooltip('show')
+  },
+  'mouseleave': function() {
+    $(this).find('#det').tooltip('hide')
+  }
+})
+
+$(document).on('click', '#det', function () {
+  $(this).tooltip('dispose')
+  let parentID = $(this).parents('.card').attr('id')
+  let id = getMatrixWithID(parentID, 'onlyID')
+  let matrix = getMatrixWithID(id)
+  if (matrix.length !== matrix[0].length) {
+    toggleModal('#noSquare'); return
+  }
+  $(this).tooltip({title:
+    '<ln> ' + doDeterminant(matrix) + '</ln>'
+  }).tooltip('show')
 })
 
 $(document).on('click', '#listCopies div', function () {
@@ -206,10 +255,10 @@ $(document).on('click', '#rows #sum', function(matrix) {
   let parentID = $(this).parents('.card').attr('id')
   matrix = getMatrixWithID(parentID)
   if (matrix.length === 12) return
-  addRow('#' + parentID + ' #table', matrix.length)
+  addRow('#' + parentID + ' table', matrix.length)
   let newRow = []
   matrix[0].forEach(function (element, idx) {
-    addColumn('#' + parentID + ' #table div#' + matrix.length, idx)
+    addColumn('#' + parentID + ' table div#' + matrix.length, idx)
     newRow.push('')
   })
   matrix.push(newRow)
@@ -221,7 +270,7 @@ $(document).on('click', '#rows #sub', function(matrix) {
   let parentID = $(this).parents('.card').attr('id')
   matrix = getMatrixWithID(parentID)
   if (matrix.length === 1) return
-  $('#' + parentID + ' #table div#' + (matrix.length-1)).fadeOut(100, function() {
+  $('#' + parentID + ' table div#' + (matrix.length-1)).fadeOut(100, function() {
     $(this).remove()
   })
   matrix.pop()
@@ -233,8 +282,8 @@ $(document).on('click', '#columns #sum', function(matrix) {
   let parentID = $(this).parents('.card').attr('id')
   matrix = getMatrixWithID(parentID)
   if (matrix[0].length === 12) return
-  $('#' + parentID + ' #table div').each(function(idx) {
-    addColumn('#' + parentID + ' #table div#' + idx, matrix[0].length)
+  $('#' + parentID + ' table div').each(function(idx) {
+    addColumn('#' + parentID + ' table div#' + idx, matrix[0].length)
   })
   matrix.forEach(function (mtx) {
     mtx.push('')
@@ -247,7 +296,7 @@ $(document).on('click', '#columns #sub', function(matrix) {
   let parentID = $(this).parents('.card').attr('id')
   matrix = getMatrixWithID(parentID)
   if (matrix[0].length === 1) return
-  $('#' + parentID + ' #table div').each(function(idx, element) {
+  $('#' + parentID + ' table div').each(function(idx, element) {
     $(element).children().last().fadeOut(100, function() {
       $(this).remove()
     })
