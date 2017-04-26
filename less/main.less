@@ -7,8 +7,8 @@
 @import url(//fonts.googleapis.com/css?family=Lato:300,400,700,400italic|Playfair+Display);
 
 html, body {
-  font-family: 'Lato', sans-serif;
   background-color: #ececec;
+  font-family: 'Lato', sans-serif;
   font-size: 30px;
   @media (max-width: @size-md) {
     font-size: 12px;
@@ -25,8 +25,8 @@ html, body {
 }
 
 h2.card-block {
-  text-align: center;
   font-weight: bold;
+  text-align: center;
 }
 
 .card, .side {
@@ -58,10 +58,10 @@ h2.card-block {
 }
 
 .div {
+  margin-bottom: 0;
   margin-left: 5%;
   margin-right: 5%;
   margin-top: 0;
-  margin-bottom: 0;
 }
 
 #sizeController {
@@ -80,4 +80,8 @@ h2.card-block {
   @media (max-width: @size-lg) {
     width: 3em !important;
   }
+}
+
+.disabled {
+  color: #ccc !important;
 }

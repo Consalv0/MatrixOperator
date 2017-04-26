@@ -8,18 +8,27 @@ function addRow(path, id, row) {
 }
 
 function addColumn(path, id, value, column) {
-  if (!$.isNumeric(value) || value <= 0) {
+  if (!$.isNumeric(value) || value === 0) {
     value = ''
   } else {
     value = Number(Math.round(value+'e2')+'e-2')
   }
-  column = '<input type="number" class="form-control matrixListener" id="' + id + '" value="' + value + '" placeholder="0" style="text-align:center;">'
+  column = '<input type="number" class="form-control matrixListener" id="' + id +
+           '" value="' + value + '" placeholder="0" style="text-align:center;">'
   if (path.includes('mTableC')) {
     column = column.replace(/"([^"]*)$/, '" readonly$1')
   }
   $(path).append(column)
 }
 /* ******* */
+
+function printedNumber(x) {
+  if (!x && x !== 0) return '∞'
+  Number(Math.round(x+'e2')+'e-2')
+  let parts = x.toString().split('.')
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return parts.join('.')
+}
 
 /* MAKE */
 function doMatrix(matrix, rows, columns) {
@@ -190,7 +199,6 @@ function doDeterminant(matrix, mSolved = []) {
     let sign = -1
     for (let i = 0; i < matrix.length; i++) {
       sign *= -1
-      console.log(mTemporal[i], matrix[0][i], sign)
       mSum += (sign*matrix[0][i])*doDeterminant(mTemporal[i])
     }
     mSolved = mSum
@@ -214,7 +222,7 @@ $(document).on('click', '#multBy', function () {
   let id = getMatrixWithID(parentID, 'onlyID')
   let num = $(this).parents('.input-group').find('input').val()
           ? $(this).parents('.input-group').find('input').val() : 1
-  num = eval(num)
+  num = eval(`(${num})`)
   doMultBy(id, num)
   if (id === 'C') { unCheck('#matrixOperator'); return }
   doOperation()
@@ -238,7 +246,7 @@ $(document).on('click', '#det', function () {
     toggleModal('#noSquare'); return
   }
   $(this).tooltip({title:
-    '<ln> ' + doDeterminant(matrix) + '</ln>'
+    '<ln> ' + printedNumber(doDeterminant(matrix)) + '</ln>'
   }).tooltip('show')
 })
 
