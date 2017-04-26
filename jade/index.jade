@@ -1,0 +1,173 @@
+doctype html
+link(hreflang='es-MX' href='//Consalv0.github.io/MatrixOperator')
+html
+  head
+    title Matrix Operator
+    meta(charset='UTF-8')
+    meta(name='viewport' content='user-scalable=no' width='device-width')
+    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css')
+    link(rel='stylesheet' href='//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css')
+    // script(language='javascript' type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/svg.js/2.5.2/svg.min.js')
+    style
+      include ../css/main.css
+  body.container
+    .modal.fade#noSameSize(tabindex='-1' role='dialog' aria-hidden='true')
+      .modal-dialog.modal-lg
+        .alert.alert-warning
+          strong WARNING!
+          p The matrices must have an&nbsp
+            strong equal number of rows and columns
+            ln &nbspto be operated.
+    .modal.fade#noEqualIntersections(tabindex='-1' role='dialog' aria-hidden='true')
+      .modal-dialog.modal-lg
+        .alert.alert-warning
+          strong WARNING!
+          p The &nbsp
+            strong number of columns in A must be equal to the number of rows in B
+            ln &nbspto be operated.
+    .modal.fade#noSquare(tabindex='-1' role='dialog' aria-hidden='true')
+      .modal-dialog.modal-lg
+        .alert.alert-warning
+          strong WARNING!
+          p The matrix must be&nbsp
+            strong square
+            ln &nbspto be operated.
+    .d-flex.flex-column.flex-lg-row.justify-content-around#tables
+      .col-xs-12.col-lg-6
+        .card#mTableA
+          .card-header
+            .btn-toolbar.d-flex
+              .btn-group.mx-auto
+                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+                  i.fa.fa-clone(aria-hidden='true')
+                .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
+                  .dropdown-item.disabled#copyA(role='button') Matrix A
+                  .dropdown-item#copyB(role='button') Matrix B
+                  .dropdown-item#copyC(role='button') Matrix C
+              .input-group.mx-auto
+                span.input-group-btn
+                  button.btn.btn-outline-primary#multBy(type='button') ×
+                input.form-control.input-sm(type='text' aria-describedby='multBy')
+              button.btn.btn-outline-primary.mx-auto#tras(type='button') A
+                sup Tr
+              button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') A
+                sup -1
+              button.btn.btn-outline-primary.mx-auto#det(type='button' data-animation='false' data-trigger='manual' data-placement='bottom' data-html='true') |A|
+          .card-block.d-flex.flex-column.flex-lg-row
+            .card-block
+              h2.card-title.font-weight-bold.text-center Matrix A
+              h6.card-subtitle.text-center.text-muted 0 × 0
+            .card-block.btn-toolbar.justify-content-center.align-items-center#sizeController
+              .d-flex.flex-column.mr-5
+                h6.text-center Rows
+                .btn-group#rows
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-down
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-up
+              .d-flex.flex-column
+                h6.text-center Columns
+                .btn-group#columns
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-right
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-left
+          .div
+            .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
+          .card-block
+            table.table
+      .col-xs-12-12.col-lg-6
+        .card#mTableB
+          .card-header
+            .btn-toolbar.d-flex
+              .btn-group.mx-auto
+                button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+                  i.fa.fa-clone(aria-hidden='true')
+                .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
+                  .dropdown-item#copyA(role='button') Matrix A
+                  .dropdown-item.disabled#copyB(role='button') Matrix B
+                  .dropdown-item#copyC(role='button') Matrix C
+              .input-group.mx-auto
+                span.input-group-btn
+                  button.btn.btn-outline-primary#multBy(type='button') ×
+                input.form-control.input-sm(type='text' aria-describedby='multBy')
+              button.btn.btn-outline-primary.mx-auto#tras(type='button') B
+                sup Tr
+              button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') B
+                sup -1
+              button.btn.btn-outline-primary.mx-auto#det(type='button' data-animation='false' data-trigger='manual' data-placement='bottom' data-html='true') |B|
+          .card-block.d-flex.flex-column.flex-lg-row
+            .card-block
+              h2.card-title.font-weight-bold.text-center Matrix B
+              h6.card-subtitle.text-center.text-muted 0 × 0
+            .card-block.btn-toolbar.justify-content-center.align-items-center#sizeController
+              .d-flex.flex-column.mr-5
+                h6.text-center Rows
+                .btn-group#rows
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-down
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-up
+              .d-flex.flex-column
+                h6.text-center Columns
+                .btn-group#columns
+                  button.btn.btn-primary#sum
+                    i.fa.fa-chevron-right
+                  button.btn.btn-secondary#sub
+                    i.fa.fa-chevron-left
+          .div
+            .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
+          .card-block
+            table.table
+    .card.mx-2#mTableC
+      .card-header
+        .btn-toolbar.d-flex
+          .btn-group.mx-auto
+            button.btn.btn-secondary.dropdown-toggle#pasteMenu(type='button' data-toggle='dropdown')
+              i.fa.fa-clone(aria-hidden='true')
+            .dropdown-menu#listCopies(aria-labelledby='pasteMenu')
+              .dropdown-item#copyA(role='button') Matrix A
+              .dropdown-item#copyB(role='button') Matrix B
+              .dropdown-item.disabled#copyC(role='button') Matrix C
+          .input-group.mx-auto
+            span.input-group-btn
+              button.btn.btn-outline-primary#multBy(type='button') ×
+            input.form-control.input-sm(type='text' aria-describedby='multBy')
+          button.btn.btn-outline-primary.mx-auto#tras(type='button') C
+            sup Tr
+          button.btn.btn-outline-secondary.mx-auto.disabled#inv(type='button') C
+            sup -1
+          button.btn.btn-outline-primary.mx-auto#det(type='button' data-animation='false' data-trigger='manual' data-placement='bottom' data-html='true') |C|
+      .card-block.btn-toolbar.d-flex.flex-row#matrixOperator
+        select.custom-select.mx-auto#matrixFirst
+          option(selected) Matrix A
+          option Matrix B
+        .btn-group.mx-auto#operation(data-toggle='buttons')
+          label#sum.btn.btn-primary.active
+            i.fa.fa-plus
+            input(type='radio' name='options')
+          label#sub.btn.btn-primary
+            i.fa.fa-minus
+            input(type='radio' name='options')
+          label#mult.btn.btn-primary
+            i.fa.fa-times
+            input(type='radio' name='options')
+        select.custom-select.mx-auto#matrixSecond
+          option(selected) Matrix A
+          option Matrix B
+      .div.mb-3
+        .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
+      .d-flex.flex-column
+        h2.card-title.font-weight-bold.text-center Matrix C
+        h6.card-subtitle.text-center.text-muted 0 × 0
+        .card-block
+          table.table
+      .card-header
+        .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
+    
+    script(src='//code.jquery.com/jquery-3.2.1.min.js')
+    script(src='//cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js')
+    script(src='//cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js')
+    script(src='//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js')
+    script
+      include ../js/main.min.js
