@@ -14,9 +14,14 @@ module.exports = function (grunt) {
           syncImport: true,
           strictImports: true
         },
-        files: {
-          'css/main.css': 'less/main.less'
-        }
+        files: [{
+          expand: true,     // Enable dynamic expansion.
+          cwd: 'less/',      // Src matches are relative to this path.
+          src: ['*.less'], // Actual pattern(s) to match.
+          dest: 'css/',   // Destination path prefix.
+          ext: '.min.css',   // Dest filepaths will have this extension.
+          extDot: 'first'   // Extensions in filenames begin after the first dot
+        }]
       }
     },
     jade: {
@@ -24,19 +29,14 @@ module.exports = function (grunt) {
         options: {
           pretty: false
         },
-        files: {
-          'index.html': ['jade/index.jade']
-        }
-      }
-    },
-    jade_pages: {
-      compile: {
-        options: {
-          pretty: false
-        },
-        files: {
-          'index.html': ['jade/index.jade']
-        }
+        files: [{
+          expand: true,     // Enable dynamic expansion.
+          cwd: 'jade/',      // Src matches are relative to this path.
+          src: ['*.jade'], // Actual pattern(s) to match.
+          dest: '',   // Destination path prefix.
+          ext: '.html',   // Dest filepaths will have this extension.
+          extDot: 'first'   // Extensions in filenames begin after the first dot
+        }]
       }
     },
     uglify: {
@@ -44,15 +44,20 @@ module.exports = function (grunt) {
         mangle: false
       },
       my_target: {
-        files: {
-          'js/main.min.js': ['js/main.js']
-        }
+        files: [{
+          expand: true,     // Enable dynamic expansion.
+          cwd: 'js/',      // Src matches are relative to this path.
+          src: ['*.js'], // Actual pattern(s) to match.
+          dest: 'js/',   // Destination path prefix.
+          ext: '.min.js',   // Dest filepaths will have this extension.
+          extDot: 'first'   // Extensions in filenames begin after the first dot
+        }]
       }
     },
     copy: {
       main: {
         expand: true,
-        src: ['assets/*', 'index.html', 'Xx-and-Os.zip'],
+        src: ['assets/*', '*.html', '*.zip'],
         dest: '/Users/Consalvo/Sites/'
       }
     },

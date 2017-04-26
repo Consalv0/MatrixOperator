@@ -18,15 +18,27 @@ html, body {
   }
 }
 
-.card-header {
+.div {
+  margin-bottom: 0;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 0;
+}
+
+.container {
   @media (max-width: @size-lg) {
-    font-size: 1rem;
+    margin: 0;
+    width: 100%;
   }
 }
 
-h2.card-block {
-  font-weight: bold;
-  text-align: center;
+#tables {
+  margin-top: 4%;
+  margin-bottom: 4%;
+  @media (max-width: @size-lg) {
+    margin-top: 0%;
+    margin-bottom: 4%;
+  }
 }
 
 .card, .side {
@@ -48,31 +60,19 @@ h2.card-block {
   }
 }
 
-#tables {
-  margin-top: 4%;
-  margin-bottom: 4%;
-  @media (max-width: @size-lg) {
-    margin-top: 0%;
-    margin-bottom: 4%;
-  }
+h2.card-block {
+  font-weight: bold;
+  text-align: center;
 }
 
-.div {
-  margin-bottom: 0;
-  margin-left: 5%;
-  margin-right: 5%;
-  margin-top: 0;
+.card-header {
+  @media (max-width: @size-lg) {
+    font-size: 1rem;
+  }
 }
 
 #sizeController {
   padding-top: 0;
-}
-
-.container {
-  @media (max-width: @size-lg) {
-    margin: 0;
-    width: 100%;
-  }
 }
 
 .input-sm {
