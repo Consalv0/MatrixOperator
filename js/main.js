@@ -189,14 +189,9 @@ function doDeterminant(matrix, mSolved = []) {
     let mSum = 0
     let sign = -1
     for (let i = 0; i < matrix.length; i++) {
-      for (let j = 0; j < matrix.length; j++) {
-        if (j % 2 === 0) {
-          if (mTemporal[i][j]) {
-            sign *= -1
-            mSum += sign*doDeterminant(mTemporal[i])
-          }
-        }
-      }
+      sign *= -1
+      console.log(mTemporal[i], matrix[0][i], sign)
+      mSum += (sign*matrix[0][i])*doDeterminant(mTemporal[i])
     }
     mSolved = mSum
   } else {
