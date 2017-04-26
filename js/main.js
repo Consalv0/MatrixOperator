@@ -8,7 +8,7 @@ function addRow(path, id, row) {
 }
 
 function addColumn(path, id, value, column) {
-  if (!$.isNumeric(value) || value === 0) {
+  if (!$.isNumeric(value) || value < 0) {
     value = ''
   } else {
     value = Number(Math.round(value+'e2')+'e-2')
@@ -26,7 +26,8 @@ function doMatrix(matrix, rows, columns) {
   for (let i = 0; i < rows; i++) {
     matrix.push([])
     for (let j = 0; j < columns; j++) {
-      matrix[i].push(Math.random()*3)
+      matrix[i].push('')
+      // matrix[i].push(Math.random()*3)
     }
   }
 }
@@ -189,7 +190,7 @@ function doDeterminant(matrix, mSolved = []) {
     let sign = -1
     for (let i = 0; i < matrix.length; i++) {
       for (let j = 0; j < matrix.length; j++) {
-        if (j % 2 == 0) {
+        if (j % 2 === 0) {
           if (mTemporal[i][j]) {
             sign *= -1
             mSum += sign*doDeterminant(mTemporal[i])
@@ -201,7 +202,6 @@ function doDeterminant(matrix, mSolved = []) {
   } else {
     mSolved = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
   }
-  console.log(mSolved)
   mSolved = Number(Math.round(mSolved+'e3')+'e-3')
   return mSolved
 }
@@ -276,7 +276,7 @@ $(document).on('change keyup', '.matrixListener', function() {
   let matrix = getMatrixWithID(parentID)
   let column = $(this).parent().attr('id')
   let row = $(this).attr('id')
-  let value = parseInt($(this).val()) ? parseInt($(this).val()) : ''
+  let value = parseFloat($(this).val()) ? parseFloat($(this).val()) : ''
   matrix[column][row] = value
   doOperation()
   sizeText(matrix, '#' + parentID)
@@ -355,4 +355,5 @@ function doOperation(matrixFirst, matrixSecond) {
   if (operation === 'mult') {
     doMult(matrixFirst, matrixSecond)
   }
+  console.log(matrixA, matrixB, matrixC)
 }
