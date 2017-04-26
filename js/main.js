@@ -8,7 +8,7 @@ function addRow(path, id, row) {
 }
 
 function addColumn(path, id, value, column) {
-  if (!$.isNumeric(value) || value < 0) {
+  if (!$.isNumeric(value) || value <= 0) {
     value = ''
   } else {
     value = Number(Math.round(value+'e2')+'e-2')
@@ -26,7 +26,7 @@ function doMatrix(matrix, rows, columns) {
   for (let i = 0; i < rows; i++) {
     matrix.push([])
     for (let j = 0; j < columns; j++) {
-      matrix[i].push('')
+      matrix[i].push(0)
       // matrix[i].push(Math.random()*3)
     }
   }
@@ -72,7 +72,7 @@ function toggleModal(path) {
 }
 
 function unCheck(name) {
-  $(name + ' input:radio[name="options"]').parent().removeClass('active')
+  $(name + ' label.active').removeClass('active')
 }
 
 function doSum(mFirst, mSecond, sign = true) {
@@ -250,16 +250,12 @@ $(document).on('click', '#det', function () {
 $(document).on('click', '#listCopies div', function () {
   let id = $(this).attr('id')
   id = id.replace(/copy/g, '')
-  let matrix = getMatrixWithID(id)
-  let inmatrix = getMatrixWithID($(this).parents('.card').attr('id'))
   let inID = getMatrixWithID($(this).parents('.card').attr('id'), 'onlyID')
   if (id === inID) return
-  unCheck('#matrixOperator')
-  inmatrix.splice(0, inmatrix.length)
-  matrix.forEach(function (element) {
-    inmatrix.push(element)
-  })
-  makeTable(inmatrix, inID)
+  if (inID === 'C') unCheck('#matrixOperator')
+  let mCopy = getMatrixWithID(id)
+  window['matrix' + inID] = mCopy
+  makeTable(mCopy, inID)
   doOperation()
 })
 
@@ -276,7 +272,7 @@ $(document).on('change keyup', '.matrixListener', function() {
   let matrix = getMatrixWithID(parentID)
   let column = $(this).parent().attr('id')
   let row = $(this).attr('id')
-  let value = parseFloat($(this).val()) ? parseFloat($(this).val()) : ''
+  let value = parseFloat($(this).val()) ? parseFloat($(this).val()) : 0
   matrix[column][row] = value
   doOperation()
   sizeText(matrix, '#' + parentID)
@@ -290,7 +286,7 @@ $(document).on('click', '#rows #sum', function(matrix) {
   let newRow = []
   matrix[0].forEach(function (element, idx) {
     addColumn('#' + parentID + ' table div#' + matrix.length, idx)
-    newRow.push('')
+    newRow.push(0)
   })
   matrix.push(newRow)
   sizeText(matrix, '#' + parentID)
@@ -317,7 +313,7 @@ $(document).on('click', '#columns #sum', function(matrix) {
     addColumn('#' + parentID + ' table div#' + idx, matrix[0].length)
   })
   matrix.forEach(function (mtx) {
-    mtx.push('')
+    mtx.push(0)
   })
   sizeText(matrix, '#' + parentID)
   doOperation()
@@ -355,5 +351,4 @@ function doOperation(matrixFirst, matrixSecond) {
   if (operation === 'mult') {
     doMult(matrixFirst, matrixSecond)
   }
-  console.log(matrixA, matrixB, matrixC)
 }
