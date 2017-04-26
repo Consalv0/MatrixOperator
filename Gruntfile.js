@@ -19,8 +19,7 @@ module.exports = function (grunt) {
           cwd: 'less/',      // Src matches are relative to this path.
           src: ['*.less'], // Actual pattern(s) to match.
           dest: 'css/',   // Destination path prefix.
-          ext: '.min.css',   // Dest filepaths will have this extension.
-          extDot: 'first'   // Extensions in filenames begin after the first dot
+          ext: '.min.css'   // Dest filepaths will have this extension.
         }]
       }
     },
@@ -34,8 +33,7 @@ module.exports = function (grunt) {
           cwd: 'jade/',      // Src matches are relative to this path.
           src: ['*.jade'], // Actual pattern(s) to match.
           dest: '',   // Destination path prefix.
-          ext: '.html',   // Dest filepaths will have this extension.
-          extDot: 'first'   // Extensions in filenames begin after the first dot
+          ext: '.html'   // Dest filepaths will have this extension.
         }]
       }
     },
@@ -47,7 +45,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,     // Enable dynamic expansion.
           cwd: 'js/',      // Src matches are relative to this path.
-          src: ['*.js'], // Actual pattern(s) to match.
+          src: ['*.js', '!*.min.js'], // Actual pattern(s) to match.
           dest: 'js/',   // Destination path prefix.
           ext: '.min.js',   // Dest filepaths will have this extension.
           extDot: 'first'   // Extensions in filenames begin after the first dot
@@ -55,7 +53,7 @@ module.exports = function (grunt) {
       }
     },
     copy: {
-      main: {
+      sites: {
         expand: true,
         src: ['assets/*', '*.html', '*.zip'],
         dest: '/Users/Consalvo/Sites/'
