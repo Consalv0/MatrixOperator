@@ -75,7 +75,14 @@ html
           .div
             .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block
-            table.table
+            #axisSolved.hidden-xs-up
+              table.table
+                .d-flex.flex-nowrap
+                  var.form-control.x(style='text-align:center' readonly) 𝑥
+                  var.form-control.y(style='text-align:center' readonly) 𝑦
+                  var.form-control.z(style='text-align:center' readonly) 𝑧
+                  var.form-control.s(style='text-align:center' readonly)
+            table#mtrx.table
       .col-xs-12-12.col-lg-6
         .card#mTableB
           .card-header
@@ -118,7 +125,14 @@ html
           .div
             .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
           .card-block
-            table.table
+            #axisSolved.hidden-xs-up
+              table.table
+                .d-flex.flex-nowrap
+                  var.form-control.x(style='text-align:center' readonly) 𝑥
+                  var.form-control.y(style='text-align:center' readonly) 𝑦
+                  var.form-control.z(style='text-align:center' readonly) 𝑧
+                  var.form-control.s(style='text-align:center' readonly)
+            table#mtrx.table
     .card.mx-2#mTableC
       .card-header
         .btn-toolbar.d-flex
@@ -143,25 +157,32 @@ html
           option(selected) Matrix A
           option Matrix B
         .btn-group.mx-auto#operation(data-toggle='buttons')
-          label#sum.btn.btn-primary.active
+          label#sum.btn.btn-primary
             i.fa.fa-plus
             input(type='radio' name='options')
           label#sub.btn.btn-primary
             i.fa.fa-minus
             input(type='radio' name='options')
-          label#mult.btn.btn-primary
+          label#mult.btn.btn-primary.active
             i.fa.fa-times
             input(type='radio' name='options')
         select.custom-select.mx-auto#matrixSecond
-          option(selected) Matrix A
-          option Matrix B
+          option Matrix A
+          option(selected) Matrix B
       .div.mb-3
         .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
       .d-flex.flex-column
         h2.card-title.font-weight-bold.text-center Matrix C
         h6.card-subtitle.text-center.text-muted 0 × 0
         .card-block
-          table.table
+          #axisSolved.hidden-xs-up
+            table.table
+              .d-flex.flex-nowrap
+                var.form-control.x(style='text-align:center' readonly) 𝑥
+                var.form-control.y(style='text-align:center' readonly) 𝑦
+                var.form-control.z(style='text-align:center' readonly) 𝑧
+                var.form-control.s(style='text-align:center' readonly)
+          table#mtrx.table
       .card-header
         .progress-bar(style='width: 100%; height: 1px; background-color: #ccc;')
     
