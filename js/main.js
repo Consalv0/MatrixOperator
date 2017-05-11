@@ -64,31 +64,38 @@ makeTable(matrixB, 'B')
 /* ******* */
 
 function matrixSizeIs(matrix, rows = 0, condRow = '>', columns = 0, condCol = '>') {
-  if (matrix[0].length >= rows && condRow === '>') {
-    if (matrix.length >= columns && condCol === '>') return true
-    if (matrix.length <= columns && condCol === '<') return true
-    if (matrix.length === columns && condCol === '=') return true
+  if (matrix.length >= rows && condRow === '>') {
+    if (matrix[0].length >= columns && condCol === '>') return true
+    if (matrix[0].length <= columns && condCol === '<') return true
+    if (matrix[0].length === columns && condCol === '=') return true
   }
-  if (matrix[0].length <= rows && condRow === '<') {
-    if (matrix.length >= columns && condCol === '>') return true
-    if (matrix.length <= columns && condCol === '<') return true
-    if (matrix.length === columns && condCol === '=') return true
+  if (matrix.length <= rows && condRow === '<') {
+    if (matrix[0].length >= columns && condCol === '>') return true
+    if (matrix[0].length <= columns && condCol === '<') return true
+    if (matrix[0].length === columns && condCol === '=') return true
   }
-  if (matrix[0].length === rows && condRow === '=') {
-    if (matrix.length >= columns && condCol === '>') return true
-    if (matrix.length <= columns && condCol === '<') return true
-    if (matrix.length === columns && condCol === '=') return true
+  if (matrix.length === rows && condRow === '=') {
+    if (matrix[0].length >= columns && condCol === '>') return true
+    if (matrix[0].length <= columns && condCol === '<') return true
+    if (matrix[0].length === columns && condCol === '=') return true
   }
   return false
 }
 
 function toggleSolveAxis(matrix, id) {
   id = getMatrixWithID(id, 'onlyID')
-  if (matrixSizeIs(matrix, 4, '=', 3, '=')) {
+  if (matrixSizeIs(matrix, 3, '=', 4, '=')) {
+    $('#mTable' + id + ' #axisSolved var.z').removeClass('hidden-xs-up')
     $('#mTable' + id + ' #axisSolved').removeClass('hidden-xs-up')
     solveAxis(id)
   } else {
     $('#mTable' + id + ' #axisSolved').addClass('hidden-xs-up')
+  }
+
+  if (matrixSizeIs(matrix, 2, '=', 3, '=')) {
+    $('#mTable' + id + ' #axisSolved var.z').addClass('hidden-xs-up')
+    $('#mTable' + id + ' #axisSolved').removeClass('hidden-xs-up')
+    solveAxis(id)
   }
 }
 
@@ -281,6 +288,7 @@ function solveAxis(id) {
   let deltaY = doDeterminant(matrixY)
   $('#mTable' + id + ' #axisSolved var.y').text('y = ' + printedNumber(deltaY / deltaS, false))
 
+  if (matrix.length === 2) return
   let matrixZ = []
   for (let i = 0; i < matrix.length; i++) {
     matrixZ.push([])
