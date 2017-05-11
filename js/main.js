@@ -187,15 +187,12 @@ function doMultBy(id, num, doTable = true) {
   mSolved.forEach(function (element) {
     matrix.push(element)
   })
-  if (doTable) {
-    makeTable(matrix, id)
-  } else {
-    return matrix
-  }
+  if (doTable) makeTable(matrix, id)
+  return matrix
 }
 
-function doTranspose(id) {
-  let matrix = getMatrixWithID(id)
+function doTranspose(matrix, id = false) {
+  if (id) matrix = getMatrixWithID(id)
   let mSolved = []
   for (let i = 0; i < matrix[0].length; i++) {
     mSolved.push([])
@@ -207,7 +204,69 @@ function doTranspose(id) {
   mSolved.forEach(function (element) {
     matrix.push(element)
   })
-  makeTable(matrix, id)
+  if (id) makeTable(matrix, id)
+  return matrix
+}
+
+function doInverse(matrix, parentID) {
+  let det = doDeterminant(matrix)
+  let mCofact = doCofactor(matrix)
+  mCofact = doTranspose(mCofact)
+  mCofact = doMultBy(mCofact, 1/det)
+
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix.length; j++) {
+      getMatrixWithID(parentID)[i][j] = mCofact[i][j]
+    }
+  }
+  makeTable(matrix, getMatrixWithID(parentID, 'onlyID'))
+}
+
+function doCofactor(matrix, mCofact = []) {
+  for (let k = 0; k < matrix.length**2; k++) {
+    mCofact.push([])
+    for (let i = 0; i < matrix.length; i++) {
+      mCofact[k].push([])
+      for (let j = 0; j < matrix.length; j++) {
+        mCofact[k][i].push(matrix[i][j])
+      }
+    }
+  }
+
+  let mTemporal = []
+  for (let i = 0; i < mCofact.length; i++) {
+    mTemporal.push([])
+    for (let j = 0; j < matrix.length; j++) {
+      mTemporal[i].push(mCofact[i][j])
+    }
+  }
+  for (let i = 0; i < mCofact.length; i++) {
+    for (let j = 0; j < mCofact[i].length; j++) {
+      mTemporal[i][j].splice(i-matrix.length * Math.floor(i/matrix.length), 1)
+    }
+  }
+  mTemporal = []
+  for (let i = 0; i < matrix.length**2; i++) {
+    mTemporal.push([])
+    for (let j = 0; j < matrix.length; j++) {
+      if (j === Math.floor(i/matrix.length)) continue
+      mTemporal[i].push(mCofact[i][j])
+    }
+  }
+  for (let i = 0; i < mTemporal.length; i++) {
+    mTemporal[i] = doDeterminant(mTemporal[i])
+  }
+
+  let mMinors = []
+  for (let i = 0; i < matrix.length; i++) {
+    mMinors.push([])
+    for (let j = 0; j < matrix.length; j++) {
+      mMinors[i].push(mTemporal[j + matrix.length*i])
+    }
+  }
+
+  mCofact = mMinors
+  return mCofact
 }
 
 function doDeterminant(matrix, mSolved = []) {
@@ -336,7 +395,8 @@ function solveAxis(id) {
 $(document).on('click', '#tras', function () {
   let parentID = $(this).parents('.card').attr('id')
   let id = getMatrixWithID(parentID, 'onlyID')
-  doTranspose(id)
+  let matrix = getMatrixWithID(parentID)
+  doTranspose(matrix, id)
   if (id === 'C') { unCheck('#matrixOperator'); return }
   doOperation()
 })
@@ -365,14 +425,25 @@ $('.card-header').on({
 $(document).on('click', '#det', function () {
   $(this).tooltip('dispose')
   let parentID = $(this).parents('.card').attr('id')
-  let id = getMatrixWithID(parentID, 'onlyID')
-  let matrix = getMatrixWithID(id)
+  let matrix = getMatrixWithID(parentID)
   if (matrix.length !== matrix[0].length) {
     toggleModal('#noSquare'); return
   }
   $(this).tooltip({title:
     '<ln> ' + printedNumber(doDeterminant(matrix)) + '</ln>'
   }).tooltip('show')
+})
+
+$(document).on('click', '#inv', function () {
+  let parentID = $(this).parents('.card').attr('id')
+  let matrix = getMatrixWithID(parentID)
+  if (matrix.length !== matrix[0].length) {
+    toggleModal('#noSquare'); return
+  }
+  doInverse(matrix, parentID)
+  toggleSolveAxis(matrix, parentID)
+  if (getMatrixWithID(parentID, 'onlyID') === 'C') { unCheck('#matrixOperator'); return }
+  doOperation()
 })
 
 $(document).on('click', '#listCopies div', function () {
