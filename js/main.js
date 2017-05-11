@@ -211,7 +211,10 @@ function doTranspose(id) {
 }
 
 function doDeterminant(matrix, mSolved = []) {
+  // Haz reiteración si la matriz es mayor a 2*2
   if (matrix.length > 2) {
+    // Hacer un array de x cantidad de matrices iguales a la matriz referenciada
+    // donde x es la cantidad de reglones (o columnas)
     for (let k = 0; k < matrix.length; k++) {
       mSolved.push([])
       for (let i = 0; i < matrix.length; i++) {
@@ -221,26 +224,39 @@ function doDeterminant(matrix, mSolved = []) {
         }
       }
     }
+    // Hacer array de matriz(ces) interna(s) removiendo la posición correspondiente
+    // en columnas y renglones
     let mTemporal = []
+    // Por cada matriz añade una matriz
     for (let i = 0; i < mSolved.length; i++) {
       mTemporal.push([])
+      // Por cada matriz añade renglón exepto el primero
       for (let j = 1; j < mSolved.length; j++) {
         mTemporal[i].push(mSolved[i][j])
       }
     }
+
+    // En cada renglón remueve el número de columna actual del for
     for (let i = 0; i < mTemporal.length; i++) {
       for (let j = 0; j < mTemporal.length-1; j++) {
         mTemporal[i][j].splice(i, 1)
       }
     }
+    // Crea la suma de determinantes
     let mSum = 0
     let sign = -1
     for (let i = 0; i < matrix.length; i++) {
+      // Cambia el signo en cada for
       sign *= -1
-      mSum += (sign*matrix[0][i])*doDeterminant(mTemporal[i])
+      // Suma la multiplicación el signo por cada valor del primer renglón del for
+      // y eso por el numero del valor de la determinante de la matriz interna previamante creada
+      // por cada valor del for
+      mSum += (sign * matrix[0][i]) * doDeterminant(mTemporal[i])
     }
+    // Da a conocer el valor de la suma de determinantes
     mSolved = mSum
   } else {
+    // Se resuelve la determinante de la matriz 2*2 con al formula |D| = ad - bc
     mSolved = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
   }
   mSolved = Number(Math.round(mSolved+'e3')+'e-3')
@@ -249,10 +265,11 @@ function doDeterminant(matrix, mSolved = []) {
 
 function solveAxis(id) {
   let matrix = getMatrixWithID(id)
-
+  // Hacer una matriz para resolver la determinante de S
   let matrixS = []
   for (let i = 0; i < matrix.length; i++) {
     matrixS.push([])
+    // No incluir la última columna
     for (let j = 0; j < matrix[i].length -1; j++) {
       matrixS[i].push(matrix[i][j])
     }
@@ -260,10 +277,12 @@ function solveAxis(id) {
   let deltaS = doDeterminant(matrixS)
   $('#mTable' + id + ' #axisSolved var.s').text('∆s = ' + printedNumber(deltaS, false))
 
+  // Hacer una matriz para resolver la determinante de X
   let matrixX = []
   for (let i = 0; i < matrix.length; i++) {
     matrixX.push([])
     for (let j = 0; j < matrix[i].length; j++) {
+      // Cuando el valor sea la columna sea la última remplaza la columna X(0) por esos valores
       if (j === matrix[i].length -1) {
         matrixX[i][0] = matrix[i][j]
       } else {
@@ -271,13 +290,17 @@ function solveAxis(id) {
       }
     }
   }
+  // Resulve su determinante
   let deltaX = doDeterminant(matrixX)
+  // Imprime delta X entre delta S
   $('#mTable' + id + ' #axisSolved var.x').text('x = ' + printedNumber(deltaX / deltaS, false))
 
+    // Hacer una matriz para resolver la determinante de Y
   let matrixY = []
   for (let i = 0; i < matrix.length; i++) {
     matrixY.push([])
     for (let j = 0; j < matrix[i].length; j++) {
+      // Cuando el valor sea la columna sea la última remplaza la columna Y(1) por esos valores
       if (j === matrix[i].length -1) {
         matrixY[i][1] = matrix[i][j]
       } else {
@@ -285,14 +308,18 @@ function solveAxis(id) {
       }
     }
   }
+  // Resulve su determinante
   let deltaY = doDeterminant(matrixY)
+  // Imprime delta Y entre delta S
   $('#mTable' + id + ' #axisSolved var.y').text('y = ' + printedNumber(deltaY / deltaS, false))
 
+  // Hacer una matriz para resolver la determinante de Z
   if (matrix.length === 2) return
   let matrixZ = []
   for (let i = 0; i < matrix.length; i++) {
     matrixZ.push([])
     for (let j = 0; j < matrix[i].length; j++) {
+      // Cuando el valor sea la columna sea la última remplaza la columna Z(2) por esos valores
       if (j === matrix[i].length -1) {
         matrixZ[i][2] = matrix[i][j]
       } else {
@@ -300,7 +327,9 @@ function solveAxis(id) {
       }
     }
   }
+  // Resulve su determinante
   let deltaZ = doDeterminant(matrixZ)
+  // Imprime delta Z entre delta S
   $('#mTable' + id + ' #axisSolved var.z').text('z = ' + printedNumber(deltaZ / deltaS, false))
 }
 
