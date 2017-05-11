@@ -210,10 +210,14 @@ function doTranspose(matrix, id = false) {
 
 function doInverse(matrix, parentID) {
   let det = doDeterminant(matrix)
+  if (!det) {
+    toggleModal('#singular'); return
+  }
   let mCofact = doCofactor(matrix)
   mCofact = doTranspose(mCofact)
   mCofact = doMultBy(mCofact, 1/det)
 
+  mCofact = mCofact.length === 1 ? [[1]] : mCofact
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix.length; j++) {
       getMatrixWithID(parentID)[i][j] = mCofact[i][j]
@@ -223,6 +227,16 @@ function doInverse(matrix, parentID) {
 }
 
 function doCofactor(matrix, mCofact = []) {
+  if (matrix.length === 1) {
+    mCofact = [[1]]
+    return mCofact
+  }
+
+  if (matrix.length === 2) {
+    mCofact = [[matrix[1][1], -matrix[1][0]], [-matrix[0][1], matrix[0][0]]]
+    return mCofact
+  }
+
   for (let k = 0; k < matrix.length**2; k++) {
     mCofact.push([])
     for (let i = 0; i < matrix.length; i++) {
@@ -258,10 +272,13 @@ function doCofactor(matrix, mCofact = []) {
   }
 
   let mMinors = []
+  let sign = (matrix.length % 2) ? -1 : 1
   for (let i = 0; i < matrix.length; i++) {
+    sign *= (matrix.length % 2) ? 1 : -1
     mMinors.push([])
     for (let j = 0; j < matrix.length; j++) {
-      mMinors[i].push(mTemporal[j + matrix.length*i])
+      sign *= -1
+      mMinors[i].push(sign * mTemporal[j + matrix.length*i])
     }
   }
 
@@ -270,6 +287,10 @@ function doCofactor(matrix, mCofact = []) {
 }
 
 function doDeterminant(matrix, mSolved = []) {
+  if (matrix.length === 1) {
+    mSolved = matrix[0][0]
+    return mSolved
+  }
   // Haz reiteración si la matriz es mayor a 2*2
   if (matrix.length > 2) {
     // Hacer un array de x cantidad de matrices iguales a la matriz referenciada
@@ -318,7 +339,6 @@ function doDeterminant(matrix, mSolved = []) {
     // Se resuelve la determinante de la matriz 2*2 con al formula |D| = ad - bc
     mSolved = (matrix[0][0] * matrix[1][1]) - (matrix[0][1] * matrix[1][0])
   }
-  mSolved = Number(Math.round(mSolved+'e3')+'e-3')
   return mSolved
 }
 
@@ -452,9 +472,18 @@ $(document).on('click', '#listCopies div', function () {
   let inID = getMatrixWithID($(this).parents('.card').attr('id'), 'onlyID')
   if (id === inID) return
   if (inID === 'C') unCheck('#matrixOperator')
+
   let mCopy = getMatrixWithID(id)
-  window['matrix' + inID] = mCopy
-  makeTable(mCopy, inID)
+  let mPaste = []
+  for (let i = 0; i < mCopy.length; i++) {
+    mPaste.push([])
+    for (let j = 0; j < mCopy[0].length; j++) {
+      mPaste[i].push([])
+      mPaste[i][j] = mCopy[i][j]
+    }
+  }
+  window['matrix' + inID] = mPaste
+  makeTable(mPaste, inID)
   doOperation()
 })
 
