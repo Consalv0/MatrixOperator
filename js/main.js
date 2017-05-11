@@ -251,7 +251,7 @@ function solveAxis(id) {
     }
   }
   let deltaS = doDeterminant(matrixS)
-  $('#mTable' + id + ' #axisSolved var.s').text('∆𝑠 = ' + printedNumber(deltaS, false))
+  $('#mTable' + id + ' #axisSolved var.s').text('∆s = ' + printedNumber(deltaS, false))
 
   let matrixX = []
   for (let i = 0; i < matrix.length; i++) {
@@ -265,7 +265,7 @@ function solveAxis(id) {
     }
   }
   let deltaX = doDeterminant(matrixX)
-  $('#mTable' + id + ' #axisSolved var.x').text('𝑥 = ' + printedNumber(deltaX / deltaS, false))
+  $('#mTable' + id + ' #axisSolved var.x').text('x = ' + printedNumber(deltaX / deltaS, false))
 
   let matrixY = []
   for (let i = 0; i < matrix.length; i++) {
@@ -279,7 +279,7 @@ function solveAxis(id) {
     }
   }
   let deltaY = doDeterminant(matrixY)
-  $('#mTable' + id + ' #axisSolved var.y').text('𝑦 = ' + printedNumber(deltaY / deltaS, false))
+  $('#mTable' + id + ' #axisSolved var.y').text('y = ' + printedNumber(deltaY / deltaS, false))
 
   let matrixZ = []
   for (let i = 0; i < matrix.length; i++) {
@@ -293,7 +293,7 @@ function solveAxis(id) {
     }
   }
   let deltaZ = doDeterminant(matrixZ)
-  $('#mTable' + id + ' #axisSolved var.z').text('𝑧 = ' + printedNumber(deltaZ / deltaS, false))
+  $('#mTable' + id + ' #axisSolved var.z').text('z = ' + printedNumber(deltaZ / deltaS, false))
 }
 
 $(document).on('click', '#tras', function () {
