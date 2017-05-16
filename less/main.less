@@ -65,9 +65,38 @@ h2.card-block {
   text-align: center;
 }
 
-.card-header {
+.card-header button {
+  font-size: 1rem;
   @media (max-width: @size-lg) {
-    font-size: 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+#createCard {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  -webkit-box-shadow: 5px 10px 20px rgba(0,0,0,0.19),
+                      5px 0px 6px rgba(0,0,0,0.23);
+  box-shadow: 5px 10px 20px rgba(0,0,0,0.19),
+              5px 0px 5px rgba(0,0,0,0.23);
+  width: 5rem;
+  height: 5rem;
+  padding: 0.6rem;
+  text-align: center;
+
+  @media (min-width: @size-lg) {
+    font-size: 1.5rem;
+    width: 5rem;
+    height: 5rem;
+  }
+
+  @media (max-width: @size-md) {
+    bottom: 3rem;
+    right: 3rem;
+    font-size: 1.5rem;
+    width: 5rem;
+    height: 5rem;
   }
 }
 

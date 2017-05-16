@@ -18,5 +18,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "grunt build",
     "start": "grunt"
+  },
+  "devDependencies": {
+    "grunt-contrib-pug": "^1.0.0"
   }
 }
